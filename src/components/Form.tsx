@@ -34,13 +34,20 @@ const Form: FC<Props> = ({ submit, loading }) => {
     <form onSubmit={handleSubmit}>
       <label htmlFor="title">
         Title
-        <input type="text" name="title" required onChange={handleChange} />
+        <input
+          value={formData.title}
+          type="text"
+          name="title"
+          required
+          onChange={handleChange}
+        />
       </label>
       <label htmlFor="description">
         Description
         <input
           type="text"
           name="description"
+          value={formData.description}
           required
           onChange={handleChange}
         />
