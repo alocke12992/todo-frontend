@@ -7,7 +7,7 @@ type Todo = {
   _id: string;
   completed: boolean;
 };
-
+const API_URL = import.meta.env.VITE_API_URL;
 function App() {
   const [form, setForm] = useState({
     title: "",
@@ -57,7 +57,7 @@ function App() {
   // };
 
   useEffect(() => {
-    console.log("import.meta.env.", import.meta.env);
+    console.log("import.meta.env.", API_URL);
   }, []);
 
   return (
