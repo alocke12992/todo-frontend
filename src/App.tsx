@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import "./App.css";
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 type Todo = {
   title: string;
@@ -15,51 +13,51 @@ function App() {
     title: "",
     description: "",
   });
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos] = useState<Todo[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log(form);
-    await createTodo(form);
+    // await createTodo(form);
   };
 
-  const fetchTodos = async () => {
-    try {
-      const response = await fetch(`${API_URL}/todos`);
-      const data = await response.json();
-      setTodos(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchTodos = async () => {
+  //   try {
+  //     const response = await fetch(`${API_URL}/todos`);
+  //     const data = await response.json();
+  //     setTodos(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   // create a todo item
-  const createTodo = async (body) => {
-    try {
-      const response = await fetch(`${API_URL}/todos`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: "My new todo",
-          description: "This is a new todo",
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
-      fetchTodos();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const createTodo = async (body) => {
+  //   try {
+  //     const response = await fetch(`${API_URL}/todos`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         title: "My new todo",
+  //         description: "This is a new todo",
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     console.log(data);
+  //     fetchTodos();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchTodos();
+    console.log("import.meta.env.", import.meta.env);
   }, []);
 
   return (
