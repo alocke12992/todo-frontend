@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+type Todo = {
+  title: string;
+  description: string;
+  _id: string;
+  completed: boolean;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+  });
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(form);
+    await createTodo(form);
+  };
+
+  const fetchTodos = async () => {
+    try {
+      const response = await fetch(`${API_URL}/todos`);
+      const data = await response.json();
+      setTodos(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // create a todo item
+  const createTodo = async (body) => {
+    try {
+      const response = await fetch(`${API_URL}/todos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "My new todo",
+          description: "This is a new todo",
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+      fetchTodos();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>My serverless todos</h1>
+      <input type="text" name="title" onChange={handleChange} />
+      <input type="text" name="description" onChange={handleChange} />
+      <button onClick={handleSubmit}>Add todo</button>
+      {todos.length ? (
+        todos.map((todo) => (
+          <div key={todo._id}>
+            <h2>{todo.title}</h2>
+            <p>{todo.description}</p>
+          </div>
+        ))
+      ) : (
+        <p>No todos found</p>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
