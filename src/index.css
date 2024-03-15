@@ -35,6 +35,10 @@ h1 {
   line-height: 1.1;
 }
 
+input {
+  margin-left: 12px;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -45,6 +49,8 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  max-width: 250px;
+  margin: auto;
 }
 button:hover {
   border-color: #646cff;
@@ -65,4 +71,27 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+  margin: auto;
 }
